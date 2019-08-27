@@ -1,7 +1,7 @@
 unit UTTetrimino;
 
 interface
-	uses UConstants, UTShape, UTMino;
+	uses UConstants, UTShape, UTMino, UTMovement;
 	
 	Type TTetrimino = record
 		shape : TShapeTetrimino;
@@ -19,9 +19,10 @@ interface
 	function getCenterMino (t: TTetrimino) : TMino;
 	procedure setCenterMino (var t: TTetrimino; mino : Tmino);
 	
+	function moveTetrimino (t: TTetrimino; movement : TMovement) : TTetrimino;
+	
 	// Function to create tetriminos
 	function newTetrimino (shape : TShapeTetrimino) : TTetrimino;
-	
 	
 implementation
 	
@@ -47,6 +48,38 @@ implementation
 	begin
 		t.shape := shape;
 	end;
+	
+	//Private functions
+	function shiftTetrominoXAxis (t : TTetrimino; direction: String) : TTetrimino;
+	var
+		i : byte;
+		tmpTetrimino : TTetrimino;
+		tmpMino : TMino;
+	begin
+		for i := 1 to 4 do
+		begin
+			tmpMino := shiftMinoXAxis (getIthMino(t, i), direction);
+			setIthMino(tmpTetrimino, i, tmpMino);
+		end;
+		
+		shiftTetrominoXAxis := tmpTetrimino;
+	end;
+	
+	function shiftTetrominoYAxis (t : TTetrimino; direction: String) : TTetrimino;
+	var
+		i : byte;
+		tmpTetrimino : TTetrimino;
+		tmpMino : TMino;
+	begin
+		for i := 1 to 4 do
+		begin
+			tmpMino := shiftMinoYAxis (getIthMino(t, i), direction);
+			setIthMino(tmpTetrimino, i, tmpMino);
+		end;
+		
+		shiftTetrominoYAxis := tmpTetrimino;
+	end;
+	
 	
 	// Useful
 	function getCenterMino (t: TTetrimino) : TMino;
@@ -118,6 +151,46 @@ implementation
 		newTetrimino := tetri;
 	end;
 	
-	
+	function moveTetrimino (t: TTetrimino; movement : TMovement) : TTetrimino;
+	var
+		tmpTetrimino : TTetrimino;
+	begin
+		tmpTetrimino := t;
+		case movement of // L, R, SD, HD, CW, CCW, R180, HOLD
+		LFT: begin
+			tmpTetrimino := shiftTetrominoXAxis (t, '-');
+		   end;
+		   
+		RGHT: begin
+			tmpTetrimino := shiftTetrominoXAxis (t, '+');
+		   end;
+		   
+		SD: begin
+			tmpTetrimino := shiftTetrominoYAxis (t, '-');
+		   end;
+		   
+		HD: begin
+			// Not implemented yet. Hard drop depends on the minos inside of the matrix, it will probably not be implemented here.
+		   end;
+		   
+		CW: begin
+			
+		   end;
+		   
+		CCW: begin
+			
+		   end;
+		   
+		R180: begin
+			
+		   end;
+		   
+		HOLD: begin
+			// Basically same as HD
+		   end;
+		NOTHING:;
+		end;
+	moveTetrimino := tmpTetrimino;
+	end;
 	
 end.
