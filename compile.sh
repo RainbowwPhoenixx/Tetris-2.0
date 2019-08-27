@@ -20,7 +20,7 @@ echo "
 fpc "src/UTGeneralInterfaceTypes.pas" -FE"./bin/"
 echo "
 "
-fpc "src/UTerminalInterfaceOut.pas" -FE"./bin/"
+fpc "src/UTerminalInterface.pas" -FE"./bin/"
 
 
 
