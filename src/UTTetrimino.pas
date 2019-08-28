@@ -56,6 +56,7 @@ implementation
 		tmpTetrimino : TTetrimino;
 		tmpMino : TMino;
 	begin
+		tmpTetrimino := t;
 		for i := 1 to 4 do
 		begin
 			tmpMino := shiftMinoXAxis (getIthMino(t, i), direction);
@@ -65,12 +66,14 @@ implementation
 		shiftTetrominoXAxis := tmpTetrimino;
 	end;
 	
+	
 	function shiftTetrominoYAxis (t : TTetrimino; direction: String) : TTetrimino;
 	var
 		i : byte;
 		tmpTetrimino : TTetrimino;
 		tmpMino : TMino;
 	begin
+		tmpTetrimino := t;
 		for i := 1 to 4 do
 		begin
 			tmpMino := shiftMinoYAxis (getIthMino(t, i), direction);
@@ -80,6 +83,57 @@ implementation
 		shiftTetrominoYAxis := tmpTetrimino;
 	end;
 	
+	function rotateTetrimino (t: TTetrimino; amount: String) : TTetrimino;
+	var
+		centerMino, tmpMino, refMino : TMino;
+		tmpTetrimino : TTetrimino;
+		i : byte;
+	begin
+		centerMino := getCenterMino (t);
+		tmpTetrimino := t;
+		
+		case amount of
+		'90' :begin
+				for i := 1 to 4 do
+				begin
+					refMino := getIthMino (t, i);
+					tmpMino := refMino;
+					setMinoX (tmpMino, getMinoX(centerMino) + (getMinoY(centerMino) - getMinoY(refMino)));
+					setMinoY (tmpMino, getMinoY(centerMino) - (getMinoX(centerMino) - getMinoX(refMino)));
+					
+					setIthMino (tmpTetrimino, i, tmpMino);
+				end;
+			  end;
+			  
+		'180':begin
+				for i := 1 to 4 do
+				begin
+					refMino := getIthMino (t, i);
+					tmpMino := refMino;
+					setMinoX (tmpMino, 2 * getMinoX(centerMino) - getMinoX(refMino)); // From the 180° rotation matrix
+					setMinoY (tmpMino, 2 * getMinoY(centerMino) - getMinoY(refMino));
+					
+					setIthMino (tmpTetrimino, i, tmpMino);
+				end;
+			  end;
+			  
+		'-90':begin
+				for i := 1 to 4 do
+				begin
+					refMino := getIthMino (t, i);
+					tmpMino := refMino;
+					setMinoX (tmpMino, getMinoX(centerMino) - (getMinoY(centerMino) - getMinoY(refMino)));
+					setMinoY (tmpMino, getMinoY(centerMino) + (getMinoX(centerMino) - getMinoX(refMino)));
+					
+					setIthMino (tmpTetrimino, i, tmpMino);
+				end;
+				
+			  end;
+		else;
+		end;
+	
+	rotateTetrimino := tmpTetrimino;
+	end;
 	
 	// Useful
 	function getCenterMino (t: TTetrimino) : TMino;
@@ -174,15 +228,15 @@ implementation
 		   end;
 		   
 		CW: begin
-			
+			tmpTetrimino := rotateTetrimino (t, '-90');
 		   end;
 		   
 		CCW: begin
-			
+			tmpTetrimino := rotateTetrimino (t, '90');
 		   end;
 		   
 		R180: begin
-			
+			tmpTetrimino := rotateTetrimino (t, '180');
 		   end;
 		   
 		HOLD: begin
