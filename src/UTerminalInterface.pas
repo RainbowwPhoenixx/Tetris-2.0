@@ -49,10 +49,10 @@ implementation
 		's': getPLayerInput := SD;
 		'd': getPLayerInput := RGHT;
 		'z': getPLayerInput := HOLD;
-		'l': getPLayerInput := CW;
-		'm': getPLayerInput := CCW;
-		'ù': getPLayerInput := R180;
-		'*': getPLayerInput := HD;
+		'j': getPLayerInput := CW;
+		'k': getPLayerInput := CCW;
+		'l': getPLayerInput := R180;
+		'm': getPLayerInput := HD;
 		else getPlayerInput := NOTHING;
 		end;
 		
