@@ -5,7 +5,11 @@ interface
 	uses UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTGeneralInterfaceTypes, UTerminalInterface;
 	
 	
-	Type TMatrix = Array [1..Cmatrix_width,1..Cmatrix_height] of TMino;
+	Type TMatrix = record
+		grid : Array [1..Cmatrix_width,1..Cmatrix_height] of TMino;
+		activeTetrimino : TTetrimino;
+	end;
+	
 	Type TNextPieces = Array [1..Cnext_queue_length] of TShapeTetrimino;
 	
 	Type TBoard = record
@@ -37,9 +41,16 @@ interface
 	function getMinoFromCoords (matrix : TMatrix; x, y : COORDINATE_TYPE) : TMino;
 	procedure setMinoAtCoords (var matrix : TMatrix; x, y : COORDINATE_TYPE; mino : TMino);
 	
+	function getActiveTetrimino (matrix : TMatrix) : TTetrimino;
+	procedure setActiveTetrimino (var matrix : TMatrix; tetri : TTetrimino); 
+	
 	// Accessors for TNextPieces
 	function getIthNextPiece (nextQueue : TNextPieces; i : byte) : TShapeTetrimino;
 	procedure setIthNextPiece (var nextQueue : TNextPieces; i : byte; piece : TShapeTetrimino);
+	
+	// Other
+	function isStateValid (matrix : TMatrix) : Boolean;
+	function computeHardDropPos (matrix : TMatrix) : TTetrimino;
 	
 implementation
 	
@@ -95,12 +106,21 @@ implementation
 	// Accessors for TMatrix
 	function getMinoFromCoords (matrix : TMatrix; x, y : COORDINATE_TYPE) : TMino;
 	begin
-		getMinoFromCoords := matrix[x][y];
+		getMinoFromCoords := matrix.grid[x][y];
 	end;
 	
 	procedure setMinoAtCoords (var matrix : TMatrix; x, y : COORDINATE_TYPE; mino : TMino);
 	begin
-		matrix[x][y] := mino;
+		matrix.grid[x][y] := mino;
+	end;
+	
+	function getActiveTetrimino (matrix : TMatrix) : TTetrimino;
+	begin
+		getActiveTetrimino := matrix.activeTetrimino;
+	end;
+	procedure setActiveTetrimino (var matrix : TMatrix; tetri : TTetrimino); 
+	begin
+		matrix.activeTetrimino := tetri;
 	end;
 	
 	// Accessors for TNextPieces
@@ -114,4 +134,47 @@ implementation
 		nextQueue[i] := piece;
 	end;
 	
+	// Other functions
+	
+	// Checks wether the tetrimino has a valid position with the current minos in the matrix.
+	function isStateValid (matrix : TMatrix) : Boolean;
+	var
+		i : byte;
+		res : Boolean;
+		tetri : TTetrimino;
+		tmpMino : TMino;
+	begin
+		tetri := getActiveTetrimino (matrix);
+		res := True;
+		
+		for i := 1 to 4 do
+		begin
+			tmpMino := getIthMino (tetri, i);
+			
+			// Check if the tetrimino occupies a space where a mino is already present.
+			res := res and (isMinoEmpty (getMinoFromCoords (matrix, getMinoX (tmpMino), getMinoY(tmpMino))));
+			
+			// Check if the tetrimino is outside of the field (sides)
+			res := res and (getMinoX (tmpMino) <= Cmatrix_width) and (getMinoX (tmpMino) >= 1);
+			
+			// Check if the tetrimino has hit the bottom
+			res := res and (getMinoY (tmpMino) >= 1);
+		end;
+		isStateValid := res;
+	end;
+	
+	function computeHardDropPos (matrix : TMatrix) : TTetrimino;
+	var
+		tmpMatrix : TMatrix;
+		nextTetri, tetri : TTetrimino;
+	begin
+		nextTetri := getActiveTetrimino (matrix);
+		repeat
+			tetri := nextTetri;
+			nextTetri := moveTetrimino (tetri, SD);
+			setActiveTetrimino (tmpMatrix, nextTetri);
+		until not isStateValid (tmpMatrix);
+		
+		computeHardDropPos := tetri;
+	end;
 end.
