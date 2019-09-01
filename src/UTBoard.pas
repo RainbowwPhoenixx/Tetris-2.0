@@ -51,6 +51,9 @@ interface
 	// Other
 	function isStateValid (matrix : TMatrix) : Boolean;
 	function computeHardDropPos (matrix : TMatrix) : TTetrimino;
+	procedure lockTetrimino (var matrix : TMatrix);
+	procedure performHold (var board : Tboard);
+	procedure handleEvent (var board : TBoard; movement : TMovement);
 	
 implementation
 	
@@ -176,5 +179,61 @@ implementation
 		until not isStateValid (tmpMatrix);
 		
 		computeHardDropPos := tetri;
+	end;
+	
+	procedure lockTetrimino (var matrix : TMatrix);
+	var
+		tmpTetrimino : TTetrimino;
+		tmpMino : TMino;
+		i : byte;
+	begin
+		tmpTetrimino := getActiveTetrimino (matrix);
+		for i := 1 to 4 do
+		begin
+			tmpMino := getIthMino (tmpTetrimino, i);
+			setMinoAtCoords (matrix, getMinoX (tmpMino), getMinoY (tmpMino), tmpMino);
+			// TODO set a flag to indicate a new tetrimino needs to be computed
+		end;
+	end;
+	
+	procedure performHold (var board : Tboard);
+	var
+		tmpHold : TShapeTetrimino;
+		tmpMatrix : TMatrix;
+	begin
+		tmpHold := getHoldPiece (board);
+		tmpMatrix := getMatrix (board);
+		setHoldPiece (board, getTetriminoShape (getActiveTetrimino (tmpMatrix)));
+		setActiveTetrimino (tmpMatrix, newTetrimino (tmpHold));
+		setMatrix (board, tmpMatrix);
+	end;
+	
+	procedure handleEvent (var board : TBoard; movement : TMovement);
+	var
+		tmpMatrix : TMatrix;
+		tmpTetrimino : TTetrimino;
+	begin
+		tmpMatrix := getMatrix (board);
+		
+		case movement of // LFT, RGHT, SD, HD, CW, CCW, R180, HOLD
+			LFT, RGHT, SD, CW, CCW, R180:
+			begin
+				tmpTetrimino := moveTetrimino (getActiveTetrimino (tmpMatrix), movement);
+				setActiveTetrimino (tmpMatrix, tmpTetrimino);
+				if isStateValid (tmpMatrix) then // If the game state is valid, then we apply the movement to the output variable.
+					setMatrix (board, tmpMatrix);
+			end;
+			
+			HD:
+			begin
+				setActiveTetrimino (tmpMatrix, computeHardDropPos (tmpMatrix));
+				lockTetrimino (tmpMatrix);
+			end;
+			
+			HOLD:
+			begin
+				performHold(board);
+			end;
+		end;
 	end;
 end.
