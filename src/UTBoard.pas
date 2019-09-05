@@ -2,15 +2,7 @@ unit UTBoard;
 
 interface
 	
-	uses UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTGeneralInterfaceTypes, UTerminalInterface;
-	
-	
-	Type TMatrix = record
-		grid : Array [1..Cmatrix_width,1..Cmatrix_height] of TMino;
-		activeTetrimino : TTetrimino;
-	end;
-	
-	Type TNextPieces = Array [1..Cnext_queue_length] of TShapeTetrimino;
+	uses UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTMatrix, UTNextPieces;
 	
 	Type TBoard = record
 		holdPiece : TShapeTetrimino;
@@ -36,17 +28,6 @@ interface
 	
 	function getScore (board : TBoard) : SCORE_TYPE;
 	procedure setScore (var board : TBoard; score : SCORE_TYPE);
-	
-	// Accessors for TMatrix
-	function getMinoFromCoords (matrix : TMatrix; x, y : COORDINATE_TYPE) : TMino;
-	procedure setMinoAtCoords (var matrix : TMatrix; x, y : COORDINATE_TYPE; mino : TMino);
-	
-	function getActiveTetrimino (matrix : TMatrix) : TTetrimino;
-	procedure setActiveTetrimino (var matrix : TMatrix; tetri : TTetrimino); 
-	
-	// Accessors for TNextPieces
-	function getIthNextPiece (nextQueue : TNextPieces; i : byte) : TShapeTetrimino;
-	procedure setIthNextPiece (var nextQueue : TNextPieces; i : byte; piece : TShapeTetrimino);
 	
 	// Other
 	function isStateValid (matrix : TMatrix) : Boolean;
@@ -105,36 +86,6 @@ implementation
 	procedure setScore (var board : TBoard; score : SCORE_TYPE);
 	begin
 		board.score := score;
-	end;
-	// Accessors for TMatrix
-	function getMinoFromCoords (matrix : TMatrix; x, y : COORDINATE_TYPE) : TMino;
-	begin
-		getMinoFromCoords := matrix.grid[x][y];
-	end;
-	
-	procedure setMinoAtCoords (var matrix : TMatrix; x, y : COORDINATE_TYPE; mino : TMino);
-	begin
-		matrix.grid[x][y] := mino;
-	end;
-	
-	function getActiveTetrimino (matrix : TMatrix) : TTetrimino;
-	begin
-		getActiveTetrimino := matrix.activeTetrimino;
-	end;
-	procedure setActiveTetrimino (var matrix : TMatrix; tetri : TTetrimino); 
-	begin
-		matrix.activeTetrimino := tetri;
-	end;
-	
-	// Accessors for TNextPieces
-	function getIthNextPiece (nextQueue : TNextPieces; i : byte) : TShapeTetrimino;
-	begin
-		getIthNextPiece := nextQueue[i];
-	end;
-	
-	procedure setIthNextPiece (var nextQueue : TNextPieces; i : byte; piece : TShapeTetrimino);
-	begin
-		nextQueue[i] := piece;
 	end;
 	
 	// Other functions
