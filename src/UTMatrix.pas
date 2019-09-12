@@ -16,6 +16,8 @@ interface
 	function getActiveTetrimino (matrix : TMatrix) : TTetrimino;
 	procedure setActiveTetrimino (var matrix : TMatrix; tetri : TTetrimino); 
 	
+	// Useful functions
+	function initMatrix (shape : TShapeTetrimino) : TMatrix;
 	
 implementation
 	
