@@ -4,11 +4,11 @@ INTERFACE
 
   USES UTBoard, UTMovement, UTerminalInterface, crt;
 
-  PROCEDURE MainLoop(var board : TBoard);
+  PROCEDURE mainLoop(var board : TBoard);
 
 IMPLEMENTATION
 
-  PROCEDURE MainLoop(var board : TBoard);
+  PROCEDURE mainLoop(var board : TBoard);
   var
     move: TMovement;
   BEGIN
