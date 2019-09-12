@@ -54,7 +54,7 @@ implementation
 	begin
 		clearScreen ();
 		// First show the skin
-		//showSkin ();
+		showSkin ();
 
 		// Then show the minos in the matrix
 		for i := 1 to Cmatrix_visible_width do
