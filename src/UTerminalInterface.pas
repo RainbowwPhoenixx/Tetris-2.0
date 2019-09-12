@@ -7,6 +7,7 @@ interface
 	procedure clearScreen();
 	procedure showMino (mino : TMino);
 	procedure showTetrimino (t : TTetrimino);
+	procedure showSkin ();
 	procedure showBoard (board : TBoard);
 	
 	function getPlayerInput () : TMovement;
@@ -31,12 +32,11 @@ implementation
 			showMino (getIthMino (t, i));
 	end;
 	
-	procedure showBoard (board : TBoard);
-	var line : String;
+	procedure showSkin ();
+	var
+		line : String;
 		skin : Text;
-		i, j : COORDINATE_TYPE;
 	begin
-		// First show the skin
 		assign(skin, BACKGROUND_PATH);
 		reset(skin);
 		GotoXY(1,1);
@@ -46,6 +46,14 @@ implementation
 				writeln (line);
 			end;
 		close(skin);
+	end;
+	
+	procedure showBoard (board : TBoard);
+	var
+		i, j : COORDINATE_TYPE;
+	begin
+		// First show the skin
+		showSkin ();
 		
 		// Then show the minos in the matrix
 		for i := 1 to Cmatrix_visible_width do
