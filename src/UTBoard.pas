@@ -35,6 +35,7 @@ interface
 	procedure lockTetrimino (var matrix : TMatrix);
 	procedure performHold (var board : Tboard);
 	procedure handleEvent (var board : TBoard; movement : TMovement);
+	function initBoard () : TBoard;
 	
 implementation
 	
@@ -89,6 +90,27 @@ implementation
 	end;
 	
 	// Other functions
+	
+	function initBoard () : TBoard;
+	var 
+		tmpBoard : TBoard;
+		tmpQueue : TNextPieces;
+		i : byte;
+	begin
+		setMatrix (tmpBoard, initMatrix (VOID));
+		setHoldPiece (tmpBoard, VOID);
+		
+		// Initializing the next queue as empty
+		tmpQueue := getNextQueue (tmpBoard);
+		for i := 1 to Cnext_queue_length do
+			setIthNextPiece (tmpQueue, i, VOID);
+		setNextQueue (tmpBoard, tmpQueue);
+		
+		setScore (tmpBoard, 0);
+		setLevel (tmpBoard, 0);
+		
+		initBoard := tmpBoard;
+	end;
 	
 	// Checks wether the tetrimino has a valid position with the current minos in the matrix.
 	function isStateValid (matrix : TMatrix) : Boolean;
