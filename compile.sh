@@ -1,4 +1,4 @@
-constants_files=("src/UConstants.pas")
+constants_files=("src/UConstants.pas src/UConstantsTerminalInterface")
 type_unit_files=("src/UTShape.pas src/UTMino.pas src/UTTetrimino.pas src/UTMovement.pas src/UTMatrix.pas src/UTNextPieces.pas src/UTBoard.pas src/UTGeneralInterfaceTypes.pas")
 
 interface_unit_files=("src/UTerminalInterface.pas")
