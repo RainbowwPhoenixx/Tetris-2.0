@@ -3,7 +3,7 @@ unit UTshape;
 interface
 	uses UConstants;
 	
-	Type TShapeTetrimino = (I, T, L, J, S, Z, O);
+	Type TShapeTetrimino = (I, T, L, J, S, Z, O, VOID);
 	
 	function getRandomShape () : TShapeTetrimino;
 implementation

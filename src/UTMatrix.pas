@@ -56,7 +56,7 @@ implementation
 		for i := 1 to Cmatrix_height do
 			for j := 1 to Cmatrix_width do
 			begin
-				tmpMino := newMino (j, i, True, O); // mino shape doesn't matter since it is empty.
+				tmpMino := newMino (j, i, VOID); // mino shape doesn't matter since it is empty.
 				setMinoAtCoords (tmpMat, j, i, tmpMino);
 			end;
 		initMatrix := tmpMat;

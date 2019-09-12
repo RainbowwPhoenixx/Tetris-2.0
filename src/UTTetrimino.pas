@@ -152,52 +152,52 @@ implementation
 	begin		
 		case shape of  //I, T, L, J, S, Z, O
 		I: begin // Initial position of the I
-			tetri.minos[1] := newMino(4,20, False, shape); // Each mino gets an initilized
-			tetri.minos[2] := newMino(5,20, False, shape);
-			tetri.minos[3] := newMino(6,20, False, shape);
-			tetri.minos[4] := newMino(7,20, False, shape);
+			tetri.minos[1] := newMino(4,20, shape); // Each mino gets an initilized
+			tetri.minos[2] := newMino(5,20, shape);
+			tetri.minos[3] := newMino(6,20, shape);
+			tetri.minos[4] := newMino(7,20, shape);
 		   end;
 		   
 		T: begin
-			tetri.minos[1] := newMino(5,20, False, shape);
-			tetri.minos[2] := newMino(6,19, False, shape);
-			tetri.minos[3] := newMino(6,20, False, shape);
-			tetri.minos[4] := newMino(7,20, False, shape);
+			tetri.minos[1] := newMino(5,20, shape);
+			tetri.minos[2] := newMino(6,19, shape);
+			tetri.minos[3] := newMino(6,20, shape);
+			tetri.minos[4] := newMino(7,20, shape);
 		   end;
 		   
 		L: begin
-			tetri.minos[1] := newMino(5,19, False, shape);
-			tetri.minos[2] := newMino(5,20, False, shape);
-			tetri.minos[3] := newMino(6,20, False, shape);
-			tetri.minos[4] := newMino(7,20, False, shape);
+			tetri.minos[1] := newMino(5,19, shape);
+			tetri.minos[2] := newMino(5,20, shape);
+			tetri.minos[3] := newMino(6,20, shape);
+			tetri.minos[4] := newMino(7,20, shape);
 		   end;
 		   
 		J: begin
-			tetri.minos[1] := newMino(7,19, False, shape);
-			tetri.minos[2] := newMino(5,20, False, shape);
-			tetri.minos[3] := newMino(6,20, False, shape);
-			tetri.minos[4] := newMino(7,20, False, shape);
+			tetri.minos[1] := newMino(7,19, shape);
+			tetri.minos[2] := newMino(5,20, shape);
+			tetri.minos[3] := newMino(6,20, shape);
+			tetri.minos[4] := newMino(7,20, shape);
 		   end;
 		   
 		S: begin
-			tetri.minos[1] := newMino(5,19, False, shape);
-			tetri.minos[2] := newMino(6,19, False, shape);
-			tetri.minos[3] := newMino(6,20, False, shape);
-			tetri.minos[4] := newMino(7,20, False, shape);
+			tetri.minos[1] := newMino(5,19, shape);
+			tetri.minos[2] := newMino(6,19, shape);
+			tetri.minos[3] := newMino(6,20, shape);
+			tetri.minos[4] := newMino(7,20, shape);
 		   end;
 		   
 		Z: begin
-			tetri.minos[1] := newMino(5,20, False, shape);
-			tetri.minos[2] := newMino(6,19, False, shape);
-			tetri.minos[3] := newMino(6,20, False, shape);
-			tetri.minos[4] := newMino(7,19, False, shape);
+			tetri.minos[1] := newMino(5,20, shape);
+			tetri.minos[2] := newMino(6,19, shape);
+			tetri.minos[3] := newMino(6,20, shape);
+			tetri.minos[4] := newMino(7,19, shape);
 		   end;
 		   
 		O: begin
-			tetri.minos[1] := newMino(5,19, False, shape);
-			tetri.minos[2] := newMino(6,19, False, shape);
-			tetri.minos[3] := newMino(5,20, False, shape);
-			tetri.minos[4] := newMino(6,20, False, shape);
+			tetri.minos[1] := newMino(5,19, shape);
+			tetri.minos[2] := newMino(6,19, shape);
+			tetri.minos[3] := newMino(5,20, shape);
+			tetri.minos[4] := newMino(6,20, shape);
 		   end;
 		end; // End case ... of
 		

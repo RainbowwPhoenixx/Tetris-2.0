@@ -5,7 +5,6 @@ interface
 	
 	Type TMino = record
 		minoType : TShapeTetrimino;
-		empty : boolean;
 		x,y : COORDINATE_TYPE;
 	end;
 	// Accessors
@@ -16,13 +15,11 @@ interface
 	procedure setMinoX (var mino : TMino; x : COORDINATE_TYPE);
 	procedure setMinoY (var mino : TMino; y : COORDINATE_TYPE);
 	procedure setMinoType (var mino : TMino; shape : TShapeTetrimino);
-	procedure setMinoEmpty (var mino : TMino; empty : Boolean);
 	
 	//Useful operations
 	function shiftMinoXAxis (mino: TMino; direction: String): Tmino;
 	function shiftMinoYAxis (mino: TMino; direction: String): Tmino;
 	function newMino (x, y : COORDINATE_TYPE;
-					  empty : Boolean;
 					  shape : TShapeTetrimino) : TMino;
 	
 implementation
@@ -44,7 +41,7 @@ implementation
 	
 	function isMinoEmpty (mino : TMino) : Boolean;
 	begin
-		isMinoEmpty := mino.empty;
+		isMinoEmpty := (mino.minoType = VOID);
 	end;
 	
 	procedure setMinoX (var mino : TMino; x : COORDINATE_TYPE);
@@ -60,11 +57,6 @@ implementation
 	procedure setMinoType (var mino : TMino; shape : TShapeTetrimino);
 	begin
 		mino.minoType := shape;
-	end;
-	
-	procedure setMinoEmpty (var mino : TMino; empty : Boolean);
-	begin
-		mino.empty := empty;
 	end;
 	
 	function shiftMinoXAxis (mino: TMino; direction: String): Tmino;
@@ -89,11 +81,10 @@ implementation
 	
 	
 	// Useful
-	function newMino (x, y : COORDINATE_TYPE; empty : Boolean; shape : TShapeTetrimino) : TMino;
+	function newMino (x, y : COORDINATE_TYPE; shape : TShapeTetrimino) : TMino;
 	var
 		mino : TMino;
 	begin
-		setMinoEmpty (mino, empty);
 		setMinoType (mino, shape);
 		setMinoX (mino, x);
 		setMinoY (mino, y);
