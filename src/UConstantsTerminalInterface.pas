@@ -10,8 +10,8 @@ interface
 		Chold_display_y = ;
 }
 
-		Cmatrix_display_x = 22;
-		Cmatrix_display_y = 1;
+		Cmatrix_display_x = 0;
+		Cmatrix_display_y = 21;
 
 {
 		Cscore_display_x = ;

@@ -18,10 +18,13 @@ implementation
 	begin
 		if not isMinoEmpty (mino) then
 		begin
-			GotoXY (2 * getMinoX(mino), Cmatrix_visible_height - getMinoY(mino) + 1);
-			TextBackground(Blue);
-			Write('  ');
-			TextBackground(Black);
+			if getMinoY (mino) < Cmatrix_visible_height + 1 then //Display the mino only if it is in the visible part of the matrix.
+			begin
+				GotoXY (Cmatrix_display_x + 2 * getMinoX(mino), Cmatrix_display_y - getMinoY(mino) + 1);
+				TextBackground(Blue);
+				Write('  ');
+				TextBackground(Black);
+			end;
 		end;
 	end;
 
