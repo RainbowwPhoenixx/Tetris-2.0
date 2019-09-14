@@ -127,14 +127,15 @@ implementation
 		begin
 			tmpMino := getIthMino (tetri, i);
 
-			// Check if the tetrimino occupies a space where a mino is already present.
-			res := res and (isMinoEmpty (getMinoFromCoords (matrix, getMinoX (tmpMino), getMinoY(tmpMino))));
-
 			// Check if the tetrimino is outside of the field (sides)
 			res := res and (getMinoX (tmpMino) <= Cmatrix_width) and (getMinoX (tmpMino) >= 1);
 
 			// Check if the tetrimino has hit the bottom
 			res := res and (getMinoY (tmpMino) >= 1);
+
+			// Check if the tetrimino occupies a space where a mino is already present.
+			res := res and (isMinoEmpty (getMinoFromCoords (matrix, getMinoX (tmpMino), getMinoY(tmpMino))));
+
 		end;
 		isStateValid := res;
 	end;
@@ -201,6 +202,7 @@ implementation
 			HD:
 			begin
 				setActiveTetrimino (tmpMatrix, computeHardDropPos (tmpMatrix));
+				write('lol');
 				lockTetrimino (tmpMatrix);
 			end;
 
