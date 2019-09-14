@@ -8,11 +8,11 @@ interface
 		Cmatrix_height = 43;
 		
 		Cnext_queue_length = 6;
-	
+
 	Type
 		COORDINATE_TYPE = byte;
 		SCORE_TYPE = LongWord;
-		
+
 implementation
-	
+
 end.
