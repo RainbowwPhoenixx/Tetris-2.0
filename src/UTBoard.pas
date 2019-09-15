@@ -193,7 +193,6 @@ implementation
 			LFT, RGHT, SD, CW, CCW, R180:
 			begin
 				tmpTetrimino := moveTetrimino (getActiveTetrimino (tmpMatrix), movement);
-				writeln ('lol');
 				setActiveTetrimino (tmpMatrix, tmpTetrimino);
 				if isStateValid (tmpMatrix) then // If the game state is valid, then we apply the movement to the output variable.
 					setMatrix (board, tmpMatrix);
@@ -202,7 +201,6 @@ implementation
 			HD:
 			begin
 				setActiveTetrimino (tmpMatrix, computeHardDropPos (tmpMatrix));
-				write('lol');
 				lockTetrimino (tmpMatrix);
 			end;
 
