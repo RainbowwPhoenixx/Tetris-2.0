@@ -1,48 +1,78 @@
 unit UTGeneralInterfaceTypes;
 
 interface
-	uses UConstants, UTShape, UTMino, UTTetrimino, UTMovement;
+	uses UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTMatrix, UTNextPieces;
 
-	Type // Procedure types out
-		TresetScreen =  procedure ();
-		TshowMatrix = procedure ();
-		TshowMino = procedure (mino : TMino);
-		TshowTetrimino = procedure (tetri : TTetrimino);
+	Type
+		// Procedure types out
+		TinitDisplay = procedure (); // Fonction to run once at the beginning to initialize the display
+		TresetScreen =  procedure (); // Cleans whole screen the with
+		TclearMatrix = procedure (); // Cleans the matrix area with whitespace
+
+		TshowMatrix = procedure (matrix : TMatrix); // Displays the Matrix
+		TshowTetrimino = procedure (tetri : TTetrimino); // Displays the active tetrimino
+		TshowNextQueue = procedure (queue : TNextPieces); // Displays the next queue
+		TshowHold = procedure (piece : TShapeTetrimino); // Displays the hold piece
+
+		TshowScore = procedure (score : SCORE_TYPE); // Displays the current score
+		TshowLevel = procedure (level : byte); // Displays the current level
 		// Procedure types in
-		TgetMovement = function ():TMovement;
+		TgetMovement = function () : TMovement; // Gets the inputs from the player
 
 
 	// general structure to facilitate passing all the display functions in procedures
 	Type IO_Interface = record
-		BackgroundOut: TresetScreen;
-		MatrixOut    : TshowMatrix;
-		MinoOut      : TshowMino;
-		TetriminoOut : TshowTetrimino;
+		initOut       : TinitDisplay;
+		BackgroundOut : TresetScreen;
+		MatrixResetOut: TclearMatrix;
 
-		PlayerIn     : TgetMovement;
+		MatrixOut     : TshowMatrix;
+		TetriminoOut  : TshowTetrimino;
+		NextQueueOut  : TshowNextQueue;
+		HoldOut       : TshowHold;
+
+		ScoreOut      : TshowScore;
+		LevelOut      : TshowLevel;
+
+		PlayerIn      : TgetMovement;
 	end;
 
-	function newInterface (backgroundResetFunc  : TresetScreen;
-	                       matrixDisplayFunc    : TshowMatrix;
-	                       minoDisplayFunc      : TshowMino;
-	                       tetriminoDisplayFunc : TshowTetrimino;
-	                       playerInputFunc      : TgetMovement   ) : IO_Interface;
+	function newInterface (initOutFunc       : TinitDisplay;
+												 BackgroundOutFunc : TresetScreen;
+												 MatrixResetOutFunc: TclearMatrix;
+												 MatrixOutFunc     : TshowMatrix;
+												 TetriminoOutFunc  : TshowTetrimino;
+												 NextQueueOutFunc  : TshowNextQueue;
+												 HoldOutFunc       : TshowHold;
+												 ScoreOutFunc      : TshowScore;
+												 LevelOutFunc      : TshowLevel;
+												 PlayerInFunc      : TgetMovement     ) : IO_Interface;
 
 implementation
 
-	function newInterface (backgroundResetFunc  : TresetScreen;
-	                       matrixDisplayFunc    : TshowMatrix;
-	                       minoDisplayFunc      : TshowMino;
-	                       tetriminoDisplayFunc : TshowTetrimino;
-	                       playerInputFunc      : TgetMovement   ) : IO_Interface;
+	function newInterface (initOutFunc       : TinitDisplay;
+												 BackgroundOutFunc : TresetScreen;
+												 MatrixResetOutFunc: TclearMatrix;
+												 MatrixOutFunc     : TshowMatrix;
+												 TetriminoOutFunc  : TshowTetrimino;
+												 NextQueueOutFunc  : TshowNextQueue;
+												 HoldOutFunc       : TshowHold;
+												 ScoreOutFunc      : TshowScore;
+												 LevelOutFunc      : TshowLevel;
+												 PlayerInFunc      : TgetMovement     ) : IO_Interface;
 	var
 		IO : IO_Interface;
 	begin
-		IO.BackgroundOut:= backgroundResetFunc;
-		IO.MatrixOut    := matrixDisplayFunc;
-		IO.MinoOut      := minoDisplayFunc;
-		IO.TetriminoOut := tetriminoDisplayFunc;
-		IO.PlayerIn     := playerInputFunc;
+		IO.initOut        := initOutFunc;
+		IO.BackgroundOut  := BackgroundOutFunc;
+		IO.MatrixResetOut := MatrixResetOutFunc;
+		IO.MatrixOut      := MatrixOutFunc;
+		IO.TetriminoOut   := TetriminoOutFunc;
+		IO.NextQueueOut   := NextQueueOutFunc;
+		IO.HoldOut        := HoldOutFunc;
+		IO.ScoreOut       := ScoreOutFunc;
+		IO.LevelOut       := LevelOutFunc;
+		IO.PlayerIn       := PlayerInFunc;
 
 		newInterface := IO;
 	end;
