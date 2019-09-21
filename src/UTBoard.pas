@@ -35,6 +35,21 @@ interface
 	function getScore (board : TBoard) : SCORE_TYPE;
 	procedure setScore (var board : TBoard; score : SCORE_TYPE);
 
+	function getDAS (board : TBoard) : byte;
+	procedure setDAS (var board : TBoard; DAS : byte);
+
+	function getFrame (board : TBoard) : word;
+	procedure setFrame (var board : TBoard; frameNb : word); // This will probably never be used
+
+	function getCombo (board : TBoard) : byte;
+	procedure setCombo (var board : TBoard; comboNb : byte);
+
+	function getBackToBackStatus (board : TBoard) : Boolean;
+	procedure setBackToBackStatus (var board : TBoard; b2b : Boolean);
+
+	function getEndTurn (board : TBoard) : Boolean;
+	procedure setEndTurn (var board : TBoard; shouldBeEnded : Boolean);
+
 implementation
 
 	// Accessors for TBoard
@@ -87,4 +102,53 @@ implementation
 		board.score := score;
 	end;
 
+	function getDAS (board : TBoard) : byte;
+	begin
+		getDAS := board.DASCounter;
+	end;
+
+	procedure setDAS (var board : TBoard; DAS : byte);
+	begin
+		board.DASCounter := DAS;
+	end;
+
+	function getFrame (board : TBoard) : word;
+	begin
+		getFrame := board.frameCounter;
+	end;
+
+	procedure setFrame (var board : TBoard; frameNb : word); // This will probably never be used
+	begin
+		board.frameCounter := frameNb;
+	end;
+
+	function getCombo (board : TBoard) : byte;
+	begin
+		getCombo := board.comboCounter;
+	end;
+
+	procedure setCombo (var board : TBoard; comboNb : byte);
+	begin
+		board.comboCounter := comboNb;
+	end;
+
+	function getBackToBackStatus (board : TBoard) : Boolean;
+	begin
+		getBackToBackStatus := board.backToBack;
+	end;
+
+	procedure setBackToBackStatus (var board : TBoard; b2b : Boolean);
+	begin
+		board.backToBack := b2b;
+	end;
+
+	function getEndTurn (board : TBoard) : Boolean;
+	begin
+		getEndTurn := board.endTurn;
+	end;
+
+	procedure setEndTurn (var board : TBoard; shouldBeEnded : Boolean);
+	begin
+		board.endTurn := shouldBeEnded;
+	end;
 end.
