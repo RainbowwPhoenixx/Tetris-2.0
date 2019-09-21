@@ -51,13 +51,24 @@ implementation
 		close(skin);
 	end;
 
+	procedure clearMatrix ();
+	var
+		i : COORDINATE_TYPE;
+	begin
+		for i := 1 to Cmatrix_visible_height do
+		begin
+			GotoXY (Cmatrix_display_x + 1, Cmatrix_display_y - i);
+			write ('                    ');
+		end;
+	end;
+
 	procedure showBoard (board : TBoard);
 	var
 		i, j : COORDINATE_TYPE;
 	begin
-		clearScreen ();
+		clearMatrix ();
 		// First show the skin
-		showSkin ();
+		showSkin (); // May change to show the skin only once at the beginning
 
 		// Then show the minos in the matrix
 		for i := 1 to Cmatrix_visible_width do
@@ -68,7 +79,6 @@ implementation
 		showTetrimino (getActiveTetrimino (getMatrix (board)));
 
 	end;
-
 
 	procedure clearScreen();
 	var
@@ -81,22 +91,28 @@ implementation
 
 	function getPlayerInput () : TMovement;
 	var
-		key : String;
+		key : TKeyEvent;
+		K : String;
 	begin
 		InitKeyboard;
 
-		key := KeyEventToString (TranslateKeyEvent (GetKeyEvent()));
+		key := PollKeyEvent;
 
-		case lowercase(key) of // Eventually these will be configurable
-		'q': getPLayerInput := LFT;
-		's': getPLayerInput := SD;
-		'd': getPLayerInput := RGHT;
-		'z': getPLayerInput := HOLD;
-		'j': getPLayerInput := CW;
-		'k': getPLayerInput := CCW;
-		'l': getPLayerInput := R180;
-		'm': getPLayerInput := HD;
-		else getPlayerInput := NOTHING;
+		if key <> 0 then
+		begin
+			K := KeyEventToString(TranslateKeyEvent(getKeyEvent));
+
+			case lowercase(K) of // Eventually these will be configurable
+			'q': getPLayerInput := LFT;
+			's': getPLayerInput := SD;
+			'd': getPLayerInput := RGHT;
+			'z': getPLayerInput := HOLD;
+			'j': getPLayerInput := CW;
+			'k': getPLayerInput := CCW;
+			'l': getPLayerInput := R180;
+			'm': getPLayerInput := HD;
+			else getPlayerInput := NOTHING;
+			end;
 		end;
 
 		DoneKeyboard;
