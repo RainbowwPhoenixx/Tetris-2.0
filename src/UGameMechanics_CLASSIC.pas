@@ -27,8 +27,12 @@ IMPLEMENTATION
     IO.BoardOut (board);
     // Wait some time for the next frame.
     delay (100);
-
   END;
+
+  procedure computeTurn (board : TBoard; IO : IO_Interface);
+  begin
+    
+  end;
 
   function initBoard (shape : TShapeTetrimino) : TBoard;
 	var
