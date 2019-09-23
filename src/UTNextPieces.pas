@@ -24,4 +24,25 @@ implementation
 		nextQueue[i] := piece;
 	end;
 
+	// Useful functions
+	procedure initNextPieces ();
+	var
+		queue : TNextPieces;
+		i : byte;
+	begin
+		for i := 1 to Cnext_queue_length do
+			setIthNextPiece	(queue, i, VOID);
+	end;
+
+	procedure moveNextPiecesOneStep (nextQueue : TNextPieces);
+	var
+		i : byte;
+	begin
+		// Move each next piece up the queue, the first one is lost
+		for i := 1 to Cnext_queue_length - 1 do
+			setIthNextPiece	(nextQueue, i, getIthNextPiece(nextQueue, i+1));
+		// Set the last piece to empty
+		setIthNextPiece (nextQueue, Cnext_queue_length, VOID);
+	end;
+
 end.
