@@ -1,4 +1,4 @@
-UNIT UGameMechanics;
+UNIT UGameMechanics_CLASSIC;
 
 INTERFACE
 
@@ -31,7 +31,7 @@ IMPLEMENTATION
 
   procedure computeTurn (board : TBoard; IO : IO_Interface);
   begin
-    
+
   end;
 
   function initBoard (shape : TShapeTetrimino) : TBoard;
