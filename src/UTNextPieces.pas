@@ -10,6 +10,9 @@ interface
 	function getIthNextPiece (nextQueue : TNextPieces; i : byte) : TShapeTetrimino;
 	procedure setIthNextPiece (var nextQueue : TNextPieces; i : byte; piece : TShapeTetrimino);
 
+	// Useful functions
+	procedure initNextPieces ();
+	procedure moveNextPiecesOneStep (var nextQueue : TNextPieces);
 
 implementation
 
@@ -34,7 +37,7 @@ implementation
 			setIthNextPiece	(queue, i, VOID);
 	end;
 
-	procedure moveNextPiecesOneStep (nextQueue : TNextPieces);
+	procedure moveNextPiecesOneStep (var nextQueue : TNextPieces);
 	var
 		i : byte;
 	begin

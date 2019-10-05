@@ -38,8 +38,8 @@ interface
 	function getDAS (board : TBoard) : byte;
 	procedure setDAS (var board : TBoard; DAS : byte);
 
-	function getFrame (board : TBoard) : word;
-	procedure setFrame (var board : TBoard; frameNb : word); // This will probably never be used
+	function getFrameNb (board : TBoard) : word;
+	procedure setFrameNb (var board : TBoard; frameNb : word); // This will probably never be used
 
 	function getCombo (board : TBoard) : byte;
 	procedure setCombo (var board : TBoard; comboNb : byte);
@@ -112,12 +112,12 @@ implementation
 		board.DASCounter := DAS;
 	end;
 
-	function getFrame (board : TBoard) : word;
+	function getFrameNb (board : TBoard) : word;
 	begin
-		getFrame := board.frameCounter;
+		getFrameNb := board.frameCounter;
 	end;
 
-	procedure setFrame (var board : TBoard; frameNb : word); // This will probably never be used
+	procedure setFrameNb (var board : TBoard; frameNb : word); // This will probably never be used
 	begin
 		board.frameCounter := frameNb;
 	end;
