@@ -1,14 +1,20 @@
 unit UTerminalInterface;
 
 interface
-	uses UConstants, UTShape, UTMino, UTTetrimino, UTMatrix, UTBoard, UTMovement, UTGeneralInterfaceTypes, UConstantsTerminalInterface, // Imports of custum units
+	uses UConstants, UTShape, UTMino, UTTetrimino, UTMatrix, UTBoard, UTNextPieces, UTMovement, UTGeneralInterfaceTypes, UConstantsTerminalInterface, // Imports of custum units
 		crt, keyboard; // Imports of default units
 
+	procedure initializeDisplay ();
 	procedure clearScreen();
-	procedure showMino (mino : TMino);
+	procedure clearMatrix ();
+	procedure showMatrix (matrix : TMatrix);
 	procedure showTetrimino (t : TTetrimino);
-	procedure showSkin ();
+	procedure showNextQueue (nextQueue : TNextPieces);
+	procedure showHoldPiece (piece : TShapeTetrimino);
 	procedure showBoard (board : TBoard);
+	procedure showScore (score : SCORE_TYPE);
+	procedure showLevel (level : byte);
+	procedure showSkin ();
 
 	function getPlayerInput () : TMovement;
 
@@ -26,6 +32,41 @@ implementation
 				TextBackground(Black);
 			end;
 		end;
+	end;
+
+
+	procedure initializeDisplay ();
+	begin
+		//nop
+	end;
+
+	procedure showMatrix (matrix : TMatrix);
+	var
+		i, j : COORDINATE_TYPE;
+	begin
+		for i := 1 to Cmatrix_visible_width do
+			for j := 1 to Cmatrix_visible_height do
+				showMino (getMinoFromCoords (matrix, i, j));
+	end;
+
+	procedure showNextQueue (nextQueue : TNextPieces);
+	begin
+		// Nop for now
+	end;
+
+	procedure showHoldPiece (piece : TShapeTetrimino);
+	begin
+		// Nop for now
+	end;
+
+	procedure showScore (score : SCORE_TYPE);
+	begin
+		// Nop for now
+	end;
+
+	procedure showLevel (level : byte);
+	begin
+		// Nop for now
 	end;
 
 	procedure showTetrimino (t : TTetrimino);
@@ -63,17 +104,13 @@ implementation
 	end;
 
 	procedure showBoard (board : TBoard);
-	var
-		i, j : COORDINATE_TYPE;
 	begin
-		clearMatrix ();
+		//clearMatrix ();
 		// First show the skin
 		showSkin (); // May change to show the skin only once at the beginning
 
 		// Then show the minos in the matrix
-		for i := 1 to Cmatrix_visible_width do
-			for j := 1 to Cmatrix_visible_height do
-				showMino (getMinoFromCoords (getMatrix (board), i, j));
+		showMatrix (getMatrix(board));
 
 		// Then show the active tetrimino
 		showTetrimino (getActiveTetrimino (getMatrix (board)));
@@ -97,6 +134,7 @@ implementation
 		InitKeyboard;
 
 		key := PollKeyEvent;
+		getPLayerInput := NOTHING;
 
 		if key <> 0 then
 		begin
