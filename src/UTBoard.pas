@@ -14,6 +14,7 @@ interface
 		comboCounter : byte; //Unused for now
 		backToBack : Boolean; //Unused for now
 		endTurn : Boolean;
+		lost : Boolean;
 
 		level : byte;
 		score : SCORE_TYPE;
@@ -49,6 +50,9 @@ interface
 
 	function getEndTurn (board : TBoard) : Boolean;
 	procedure setEndTurn (var board : TBoard; shouldBeEnded : Boolean);
+
+	function getLostStatus (board : TBoard) : Boolean;
+	procedure getLostStatus (var board : TBoard; lostStatus : Boolean);
 
 implementation
 
@@ -151,4 +155,15 @@ implementation
 	begin
 		board.endTurn := shouldBeEnded;
 	end;
+
+	function getLostStatus (board : TBoard) : Boolean;
+	begin
+		getLostStatus := board.lost;
+	end;
+
+	procedure getLostStatus (var board : TBoard; lostStatus : Boolean);
+	begin
+		board.lost := lostStatus;
+	end;
+
 end.
