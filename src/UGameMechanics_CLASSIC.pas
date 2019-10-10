@@ -16,6 +16,16 @@ INTERFACE
 
 IMPLEMENTATION
 
+  procedure checkLoss (var board : TBoard); // Sets the lost status to true is necesary
+  var
+    currentTetrimino : TTetrimino;
+  begin
+    // If the tetrimino hasn't moved before locking, then the game is lost.
+    currentTetrimino := getActiveTetrimino (getMatrix (board));
+    if areTetriminoIdentical(currentTetrimino, newTetrimino (getTetriminoShape (currentTetrimino))) then
+      setLostStatus (board, True);
+  end;
+
   PROCEDURE computeFrame(var board : TBoard; IO : IO_Interface);
   var
     move: TMovement;
@@ -138,6 +148,8 @@ IMPLEMENTATION
     until getEndTurn (board);
     setEndTurn (board, False);
 
+    checkLoss (board);
+
     // Clears lines & update score
     endTurnWrapper (board);
   end;
@@ -159,7 +171,7 @@ IMPLEMENTATION
 
 		setScore (tmpBoard, 0);
 		setLevel (tmpBoard, 0);
-    getLostStatus (tmpBoard, False);
+    setLostStatus (tmpBoard, False);
     setEndTurn (tmpBoard, False);
 
 		initBoard := tmpBoard;
