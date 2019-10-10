@@ -57,6 +57,7 @@ IMPLEMENTATION
     linesToClear : Array [1..4] of COORDINATE_TYPE;
     needsToBeCleared : Boolean;
     i, j : COORDINATE_TYPE;
+    k : byte;
   begin
     // First detect which lines need to be cleared
     linesCleared := 0;
@@ -65,7 +66,7 @@ IMPLEMENTATION
       needsToBeCleared := True;
       // If one of the minos on the Ith line is VOID, then needsToBeCleared will be false
       for j := 1 to Cmatrix_width do
-        needsToBeCleared := needsToBeCleared and (getMinoType(getMinoFromCoords (matrix, j, i)) <> VOID);
+        needsToBeCleared := needsToBeCleared and (not isMinoEmpty(getMinoFromCoords (matrix, j, i)));
 
       if needsToBeCleared then
       begin
@@ -81,7 +82,10 @@ IMPLEMENTATION
           setMinoAtCoords (matrix, j, linesToClear[i], newMino (j, linesToClear[i], VOID));
 
     // Then pull down all of the lines above the cleared lines
-    GotoXY (50, 1); write (linesCleared); //DEBUG
+    for k := linesCleared downto 1 do
+      for i := linesToClear[1] to Cmatrix_height - 1 do
+        for j := 1 to Cmatrix_width do
+          setMinoAtCoords (matrix, j, i, newMino(j, i, getMinoType(getMinoFromCoords(matrix, j, i + 1))));
 
   end;
 
