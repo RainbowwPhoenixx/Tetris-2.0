@@ -52,7 +52,7 @@ interface
 	procedure setEndTurn (var board : TBoard; shouldBeEnded : Boolean);
 
 	function getLostStatus (board : TBoard) : Boolean;
-	procedure getLostStatus (var board : TBoard; lostStatus : Boolean);
+	procedure setLostStatus (var board : TBoard; lostStatus : Boolean);
 
 implementation
 
@@ -161,7 +161,7 @@ implementation
 		getLostStatus := board.lost;
 	end;
 
-	procedure getLostStatus (var board : TBoard; lostStatus : Boolean);
+	procedure setLostStatus (var board : TBoard; lostStatus : Boolean);
 	begin
 		board.lost := lostStatus;
 	end;
