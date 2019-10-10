@@ -20,6 +20,7 @@ interface
 	procedure setCenterMino (var t: TTetrimino; mino : Tmino);
 
 	function moveTetrimino (t: TTetrimino; movement : TMovement) : TTetrimino;
+	function areTetriminoIdentical (t1, t2 : TTetrimino) : Boolean;
 
 	// Function to create tetriminos
 	function newTetrimino (shape : TShapeTetrimino) : TTetrimino;
@@ -245,6 +246,20 @@ implementation
 		NOTHING:;
 		end;
 	moveTetrimino := tmpTetrimino;
+	end;
+
+	function areTetriminoIdentical (t1, t2 : TTetrimino) : Boolean;
+	var
+		res : Boolean;
+		i : byte;
+	begin
+	res := True;
+	res := res and (getTetriminoShape(t1) = getTetriminoShape(t2));
+
+	for i := 1 to 4 do
+		res := res and areMinoIdentical (getIthMino (t1, i), getIthMino (t2, i));
+
+	areTetriminoIdentical := res;
 	end;
 
 end.

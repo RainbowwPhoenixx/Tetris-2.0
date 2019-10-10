@@ -19,6 +19,7 @@ interface
 	//Useful operations
 	function shiftMinoXAxis (mino: TMino; direction: String): Tmino;
 	function shiftMinoYAxis (mino: TMino; direction: String): Tmino;
+	function areMinoIdentical (m1, m2 : TMino) : Boolean;
 	function newMino (x, y : COORDINATE_TYPE;
 					  shape : TShapeTetrimino) : TMino;
 
@@ -91,5 +92,17 @@ implementation
 
 		newMino := mino;
 	end;
+
+	function areMinoIdentical (m1, m2 : TMino) : Boolean;
+	var res : Boolean;
+	begin
+		res := True;
+		res := res and (getMinoX(m1) = getMinoX(m2));
+		res := res and (getMinoY(m1) = getMinoY(m2));
+		res := res and (getMinoType(m1) = getMinoType(m2));
+
+		areMinoIdentical := res;
+	end;
+
 
 end.
