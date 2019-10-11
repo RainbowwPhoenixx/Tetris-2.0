@@ -18,6 +18,7 @@ interface
 
 		level : byte;
 		score : SCORE_TYPE;
+		lines : byte; // Contains the number of cleared lines
 	end;
 
 	// Accessors for TBoard
@@ -53,6 +54,9 @@ interface
 
 	function getLostStatus (board : TBoard) : Boolean;
 	procedure setLostStatus (var board : TBoard; lostStatus : Boolean);
+
+	function getLines (board : TBoard) : byte;
+	procedure setLines (var board : TBoard; linesCleared : byte);
 
 implementation
 
@@ -164,6 +168,16 @@ implementation
 	procedure setLostStatus (var board : TBoard; lostStatus : Boolean);
 	begin
 		board.lost := lostStatus;
+	end;
+
+	function getLines (board : TBoard) : byte;
+	begin
+		getLines := board.lines;
+	end;
+
+	procedure setLines (var board : TBoard; linesCleared : byte);
+	begin
+		board.lines := linesCleared;
 	end;
 
 end.
