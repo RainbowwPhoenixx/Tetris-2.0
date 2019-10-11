@@ -99,6 +99,30 @@ IMPLEMENTATION
 
   end;
 
+  procedure updateScore (var board : TBoard; linesCleared : byte);
+  var score : SCORE_TYPE;
+  begin
+    score := getScore (board);
+    case linesCleared of
+      1 : score := score + (getLevel (board) + 1) * 40;
+      2 : score := score + (getLevel (board) + 1) * 100;
+      3 : score := score + (getLevel (board) + 1) * 300;
+      4 : score := score + (getLevel (board) + 1) * 1200;
+    end;
+    setScore (board, score);
+  end;
+
+  procedure updateLines (var board : TBoard; lines : byte);
+  begin
+    setLines (board, getLines (board) + lines);
+  end;
+
+  procedure updateLevel (var board : TBoard);
+  begin
+    if (getLines (board) div 10) > getLevel (board) then
+      setLevel (board, getLevel(board) + 1);
+  end;
+
   procedure endTurnWrapper (var board : TBoard);
   var
     linesCleared : byte;
@@ -109,9 +133,12 @@ IMPLEMENTATION
     clearLines (tmpMat, linesCleared);
     setMatrix (board, tmpMat);
 
-    // Update score TODO
+    // Update score
+    updateScore (board, linesCleared);
     // Update lines cleared
-    // Update level
+    updateLines (board, linesCleared);
+    // Update level TODO
+    updateLevel (board);
   end;
 
   procedure computeTurn (var board : TBoard; IO : IO_Interface);
@@ -131,6 +158,12 @@ IMPLEMENTATION
     moveNextPiecesOneStep (queue);
     setIthNextPiece (queue, Cnext_queue_length, getRandomShape()); // Add a new piece in queue
     setNextQueue (board, queue);
+
+    // Display game stats
+    IO.ScoreOut (getScore (board));
+    IO.LevelOut (getLevel (board));
+    IO.NextQueueOut (getNextQueue (board));
+    IO.HoldOut (getHoldPiece (board));
 
     currentFrameNb := 0;
     currentSpeed := levelToSpeed (getLevel (board));
