@@ -162,6 +162,7 @@ IMPLEMENTATION
     // Display game stats
     IO.ScoreOut (getScore (board));
     IO.LevelOut (getLevel (board));
+    IO.LinesOut (getLines (board));
     IO.NextQueueOut (getNextQueue (board));
     IO.HoldOut (getHoldPiece (board));
 

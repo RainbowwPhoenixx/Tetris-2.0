@@ -17,6 +17,7 @@ interface
 
 		TshowScore = procedure (score : SCORE_TYPE); // Displays the current score
 		TshowLevel = procedure (level : byte); // Displays the current level
+		TshowLines = procedure (lines : byte); // Displays the number of lines cleared
 		// Procedure types in
 		TgetMovement = function () : TMovement; // Gets the inputs from the player
 
@@ -35,6 +36,7 @@ interface
 
 		ScoreOut      : TshowScore;
 		LevelOut      : TshowLevel;
+		LinesOut      : TshowLines;
 
 		PlayerIn      : TgetMovement;
 	end;
@@ -49,6 +51,7 @@ interface
 												 BoardOutFunc      : TshowBoard;
 												 ScoreOutFunc      : TshowScore;
 												 LevelOutFunc      : TshowLevel;
+												 LinesOutFunc      : TshowLines;
 												 PlayerInFunc      : TgetMovement     ) : IO_Interface;
 
 implementation
@@ -63,6 +66,7 @@ implementation
 												 BoardOutFunc      : TshowBoard;
 												 ScoreOutFunc      : TshowScore;
 												 LevelOutFunc      : TshowLevel;
+												 LinesOutFunc      : TshowLines;
 												 PlayerInFunc      : TgetMovement     ) : IO_Interface;
 	var
 		IO : IO_Interface;
@@ -77,6 +81,7 @@ implementation
 		IO.BoardOut       := BoardOutFunc;
 		IO.ScoreOut       := ScoreOutFunc;
 		IO.LevelOut       := LevelOutFunc;
+		IO.LinesOut       := LinesOutFunc;
 		IO.PlayerIn       := PlayerInFunc;
 
 		newInterface := IO;

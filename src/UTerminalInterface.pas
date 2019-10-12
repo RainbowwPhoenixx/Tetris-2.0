@@ -14,6 +14,7 @@ interface
 	procedure showBoard (board : TBoard);
 	procedure showScore (score : SCORE_TYPE);
 	procedure showLevel (level : byte);
+	procedure showLines (lines : byte);
 	procedure showSkin ();
 
 	function getPlayerInput () : TMovement;
