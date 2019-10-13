@@ -11,7 +11,7 @@ INTERFACE
 	function computeHardDropPos (matrix : TMatrix) : TTetrimino;
 	procedure lockTetrimino (var matrix : TMatrix);
 	procedure performHold (var board : Tboard);
-	procedure handleEvent (var board : TBoard; movement : TMovement);
+	procedure handleEvent (var board : TBoard; movement : TMovement; IO : IO_Interface);
 	function initBoard (shape : TShapeTetrimino) : TBoard;
 
 IMPLEMENTATION
@@ -33,7 +33,7 @@ IMPLEMENTATION
     // Look for inputs from the player
     move := IO.PlayerIn ();
     // Apply those inputs to the board
-    handleEvent (board, move);
+    handleEvent (board, move, IO);
     // Display the board
     IO.BoardOut (board);
     // Wait some time for the next frame.
@@ -164,7 +164,6 @@ IMPLEMENTATION
     IO.LevelOut (getLevel (board));
     IO.LinesOut (getLines (board));
     IO.NextQueueOut (getNextQueue (board));
-    IO.HoldOut (getHoldPiece (board));
 
     currentFrameNb := 0;
     currentSpeed := levelToSpeed (getLevel (board));
@@ -174,7 +173,7 @@ IMPLEMENTATION
       // Automatic descent
       if currentFrameNb > currentSpeed then
       begin
-        handleEvent (board, SD);
+        handleEvent (board, SD, IO);
         currentFrameNb := 0;
       end
       else
@@ -281,7 +280,7 @@ IMPLEMENTATION
 		setMatrix (board, tmpMatrix);
 	end;
 
-	procedure handleEvent (var board : TBoard; movement : TMovement);
+	procedure handleEvent (var board : TBoard; movement : TMovement; IO : IO_Interface);
 	var
 		tmpMatrix : TMatrix;
 		tmpTetrimino : TTetrimino;
@@ -323,6 +322,7 @@ IMPLEMENTATION
 			HOLD:
 			begin
 				performHold(board);
+        IO.HoldOut (getHoldPiece (board));
 			end;
 		end;
 	end;
