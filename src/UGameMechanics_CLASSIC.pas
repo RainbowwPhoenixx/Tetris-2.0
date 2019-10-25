@@ -10,7 +10,6 @@ INTERFACE
 	function isStateValid (matrix : TMatrix) : Boolean;
 	function computeHardDropPos (matrix : TMatrix) : TTetrimino;
 	procedure lockTetrimino (var matrix : TMatrix);
-	procedure performHold (var board : Tboard);
 	procedure handleEvent (var board : TBoard; movement : TMovement; IO : IO_Interface);
 	function initBoard (shape : TShapeTetrimino) : TBoard;
 
@@ -274,7 +273,7 @@ IMPLEMENTATION
 		end;
 	end;
 
-	procedure performHold (var board : Tboard);
+	procedure performHold (var board : Tboard; IO : IO_Interface);
 	var
 		tmpHold : TShapeTetrimino;
 		tmpMatrix : TMatrix;
@@ -284,6 +283,8 @@ IMPLEMENTATION
 		setHoldPiece (board, getTetriminoShape (getActiveTetrimino (tmpMatrix)));
 		setActiveTetrimino (tmpMatrix, newTetrimino (tmpHold));
 		setMatrix (board, tmpMatrix);
+    if tmpHold = VOID then
+      initTurn (board, IO); // If the hold was void, override current piece with piece from next queue
 	end;
 
 	procedure handleEvent (var board : TBoard; movement : TMovement; IO : IO_Interface);
@@ -327,7 +328,7 @@ IMPLEMENTATION
 
 			HOLD:
 			begin
-				performHold(board);
+				performHold(board, IO);
         IO.HoldOut (getHoldPiece (board));
 			end;
 		end;
