@@ -123,6 +123,29 @@ IMPLEMENTATION
       setLevel (board, getLevel(board) + 1);
   end;
 
+  procedure initTurn (var board : TBoard; IO : IO_Interface);
+  var
+    mat : TMatrix;
+    queue : TNextPieces;
+  begin
+    // Get the next item in queue
+    mat := getMatrix (board);
+    setActiveTetrimino (mat, newTetrimino (getIthNextPiece (getNextQueue (board), 1)));
+    setMatrix (board, mat);
+
+    // Advance the queue
+    queue := getNextQueue (board);
+    moveNextPiecesOneStep (queue);
+    setIthNextPiece (queue, Cnext_queue_length, getRandomShape()); // Add a new piece in queue
+    setNextQueue (board, queue);
+
+    // Display game stats
+    IO.ScoreOut (getScore (board));
+    IO.LevelOut (getLevel (board));
+    IO.LinesOut (getLines (board));
+    IO.NextQueueOut (getNextQueue (board));
+  end;
+
   procedure endTurnWrapper (var board : TBoard);
   var
     linesCleared : byte;
@@ -143,27 +166,10 @@ IMPLEMENTATION
 
   procedure computeTurn (var board : TBoard; IO : IO_Interface);
   var
-    mat : TMatrix;
-    queue : TNextPieces;
     currentFrameNb : byte;
     currentSpeed : byte;
   begin
-    // Get the next item in queue
-    mat := getMatrix (board);
-    setActiveTetrimino (mat, newTetrimino (getIthNextPiece (getNextQueue (board), 1)));
-    setMatrix (board, mat);
-
-    // Advance the queue
-    queue := getNextQueue (board);
-    moveNextPiecesOneStep (queue);
-    setIthNextPiece (queue, Cnext_queue_length, getRandomShape()); // Add a new piece in queue
-    setNextQueue (board, queue);
-
-    // Display game stats
-    IO.ScoreOut (getScore (board));
-    IO.LevelOut (getLevel (board));
-    IO.LinesOut (getLines (board));
-    IO.NextQueueOut (getNextQueue (board));
+    initTurn (board, IO);
 
     currentFrameNb := 0;
     currentSpeed := levelToSpeed (getLevel (board));
