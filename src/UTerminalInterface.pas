@@ -21,24 +21,37 @@ interface
 
 implementation
 
-	procedure showMino (mino : TMino);
+	function getColor (shape : TShapeTetrimino) : Shortint;
 	begin
-		if not isMinoEmpty (mino) then
-		begin
-			if getMinoY (mino) < Cmatrix_visible_height + 1 then //Display the mino only if it is in the visible part of the matrix.
-			begin
-				GotoXY (Cmatrix_display_x + 2 * getMinoX(mino), Cmatrix_display_y - getMinoY(mino) + 1);
-				TextBackground(Blue);
-				Write('  ');
-				TextBackground(Black);
-			end;
+		case shape of
+			VOID : getColor := Black;
+			I : getColor := Cyan;
+			J : getColor := LightGray;
+			L : getColor := Blue;
+			S : getColor := Red;
+			Z : getColor := Green;
+			O : getColor := Yellow;
+			T : getColor := Magenta;
+			else getColor := Blue;
 		end;
 	end;
 
+	procedure showMino (mino : TMino; writeVoids : Boolean; offset_x, offset_y : byte);
+	begin
+		if (getMinoY (mino) < Cmatrix_visible_height + 1) then //Display the mino only if it is in the visible part of the matrix.
+			if (not isMinoEmpty(mino) or writeVoids) then
+			begin
+				GotoXY (offset_x + (2 * getMinoX(mino)), offset_y - getMinoY(mino) + 1);
+				TextBackground(getColor (getMinoType (mino)));
+				Write('  ');
+				TextBackground(Black);
+			end;
+	end;
 
 	procedure initializeDisplay ();
 	begin
-		//nop
+		ClrScr;
+		showSkin();
 	end;
 
 	procedure showMatrix (matrix : TMatrix);
@@ -47,34 +60,74 @@ implementation
 	begin
 		for i := 1 to Cmatrix_visible_width do
 			for j := 1 to Cmatrix_visible_height do
-				showMino (getMinoFromCoords (matrix, i, j));
+				showMino (getMinoFromCoords (matrix, i, j), True, Cmatrix_display_x, Cmatrix_display_y);
 	end;
 
 	procedure showNextQueue (nextQueue : TNextPieces);
+	var
+		i, j : byte;
+		tmpTetrimino : TTetrimino;
 	begin
-		// Nop for now
+		// First clear the area where the bolcks will show
+		for i := Cnext_pieces_real_display_y to 23 do
+		begin
+			GotoXY(Cnext_pieces_real_display_x, i);
+			write ('          ');
+		end;
+
+		// Then display the next pieces
+		for i := 1 to Cvisible_next_queue_length do
+		begin
+			tmpTetrimino := newTetrimino (getIthNextPiece (nextQueue, i));
+			for j := 1 to 4 do
+				showMino (getIthMino (tmpTetrimino, j), False, Cnext_pieces_display_x, Cnext_pieces_display_y + 3*(i-1));
+		end;
 	end;
 
 	procedure showHoldPiece (piece : TShapeTetrimino);
+	var
+		i : byte;
+		tmpTetrimino : TTetrimino;
 	begin
-		// Nop for now
+		if piece <> VOID then
+		begin
+			// First clear the area where it will show
+			for i := Chold_real_display_y to Chold_real_display_y + 1 do
+			begin
+				GotoXY(Chold_real_display_x, i);
+				write ('        ');
+			end;
+
+			// Then display yhe mino in Hold
+			tmpTetrimino := newTetrimino (piece);
+			for i := 1 to 4 do
+				showMino (getIthMino (tmpTetrimino, i), False, Chold_display_x, Chold_display_y);
+		end;
 	end;
 
 	procedure showScore (score : SCORE_TYPE);
 	begin
-		// Nop for now
+		GotoXY(Cscore_display_x, Cscore_display_y);
+		write (score);
 	end;
 
 	procedure showLevel (level : byte);
 	begin
-		// Nop for now
+		GotoXY(Clevel_display_x, Clevel_display_y);
+		write (level);
+	end;
+
+	procedure showLines (lines : byte);
+	begin
+		GotoXY(Clines_display_x, Clines_display_y);
+		write (lines);
 	end;
 
 	procedure showTetrimino (t : TTetrimino);
 	var i : byte;
 	begin
 		for i := 1 to 4 do
-			showMino (getIthMino (t, i));
+			showMino (getIthMino (t, i), False, Cmatrix_display_x, Cmatrix_display_y);
 	end;
 
 	procedure showSkin ();
@@ -106,23 +159,20 @@ implementation
 
 	procedure showBoard (board : TBoard);
 	begin
-		//clearMatrix ();
-		// First show the skin
-		showSkin (); // May change to show the skin only once at the beginning
-
-		// Then show the minos in the matrix
+		// Show the minos in the matrix
 		showMatrix (getMatrix(board));
 
 		// Then show the active tetrimino
 		showTetrimino (getActiveTetrimino (getMatrix (board)));
 
+		GotoXY (60,1); // Get the blinking cursor out of the way
 	end;
 
 	procedure clearScreen();
 	var
 		i : byte;
 	begin
-	GotoXY(1, 1);
+		GotoXY(1, 1);
 		for i := 1 to 23 do
 			writeln ('                                                                               ');
 	end;

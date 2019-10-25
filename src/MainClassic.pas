@@ -21,6 +21,8 @@ begin
 		setNextQueue (board, tmpNextQueue);
 	end;
 
+	initializeDisplay ();
+
 	IO := newInterface (@initializeDisplay,
 										  @clearScreen,
 										  @clearMatrix,
@@ -31,6 +33,7 @@ begin
 										  @showBoard,
 										  @showScore,
 										  @showLevel,
+											@showLines,
 										  @getPlayerInput);
 
 	repeat
