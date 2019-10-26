@@ -15,6 +15,7 @@ interface
 		backToBack : Boolean; //Unused for now
 		endTurn : Boolean;
 		lost : Boolean;
+		hasHeldThisTurn : Boolean;
 
 		level : byte;
 		score : SCORE_TYPE;
@@ -57,6 +58,9 @@ interface
 
 	function getLines (board : TBoard) : byte;
 	procedure setLines (var board : TBoard; linesCleared : byte);
+
+	function getHasHeld (board : TBoard) : Boolean;
+	procedure setHasHeld (var board : TBoard; held : Boolean);
 
 implementation
 
@@ -178,6 +182,16 @@ implementation
 	procedure setLines (var board : TBoard; linesCleared : byte);
 	begin
 		board.lines := linesCleared;
+	end;
+
+	function getHasHeld (board : TBoard) : Boolean;
+	begin
+		getHasHeld := board.hasHeldThisTurn;
+	end;
+
+	procedure setHasHeld (var board : TBoard; held : Boolean);
+	begin
+		board.hasHeldThisTurn := held;
 	end;
 
 end.

@@ -14,7 +14,6 @@ I have decided to put this project into something somewhat coherent and then por
  Simply execute the execution script, with `./execute.sh`. The game should launch in the terminal.
 
 ## Features to come (in no specific order)
-- Holding only once per piece
 - Rework of the input, to add proper DAS
 - Separating modern and classic gamemodes
 - Menus !

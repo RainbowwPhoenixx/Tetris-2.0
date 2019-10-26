@@ -143,6 +143,9 @@ IMPLEMENTATION
     IO.LevelOut (getLevel (board));
     IO.LinesOut (getLines (board));
     IO.NextQueueOut (getNextQueue (board));
+
+    // Reset held status
+    setHasHeld(board, False);
   end;
 
   procedure endTurnWrapper (var board : TBoard);
@@ -278,13 +281,17 @@ IMPLEMENTATION
 		tmpHold : TShapeTetrimino;
 		tmpMatrix : TMatrix;
 	begin
-		tmpHold := getHoldPiece (board);
-		tmpMatrix := getMatrix (board);
-		setHoldPiece (board, getTetriminoShape (getActiveTetrimino (tmpMatrix)));
-		setActiveTetrimino (tmpMatrix, newTetrimino (tmpHold));
-		setMatrix (board, tmpMatrix);
-    if tmpHold = VOID then
-      initTurn (board, IO); // If the hold was void, override current piece with piece from next queue
+    if not getHasHeld (board) then
+    begin
+  		tmpHold := getHoldPiece (board);
+  		tmpMatrix := getMatrix (board);
+  		setHoldPiece (board, getTetriminoShape (getActiveTetrimino (tmpMatrix)));
+  		setActiveTetrimino (tmpMatrix, newTetrimino (tmpHold));
+  		setMatrix (board, tmpMatrix);
+      if tmpHold = VOID then
+        initTurn (board, IO); // If the hold was void, override current piece with piece from next queue
+      setHasHeld (board, True);
+    end;
 	end;
 
 	procedure handleEvent (var board : TBoard; movement : TMovement; IO : IO_Interface);
