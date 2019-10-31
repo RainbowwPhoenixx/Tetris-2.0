@@ -4,6 +4,7 @@ interface
 
   uses  UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTMatrix, UTNextPieces, UTBoard, UTGeneralInterfaceTypes, crt;
 
+  procedure runGame (IO : IO_Interface);
   procedure computeFrame(var board : TBoard; IO : IO_Interface);
   procedure computeTurn (var board : TBoard; IO : IO_Interface);
 
@@ -14,6 +15,32 @@ interface
 	function initBoard (shape : TShapeTetrimino) : TBoard;
 
 implementation
+
+
+  procedure runGame (IO : IO_Interface);
+  var
+    board : Tboard;
+    i : byte;
+    tmpNextQueue : TNextPieces;
+  begin
+    Randomize ();
+
+    board := initBoard(getRandomShape ());
+
+    // Init the queue with random pieces
+    tmpNextQueue := getNextQueue (board);
+    for i := 1 to Cnext_queue_length do
+    begin
+      setIthNextPiece (tmpNextQueue, i , getRandomShape());
+    end;
+    setNextQueue (board, tmpNextQueue);
+
+    IO.initOut();
+
+    repeat
+  		computeTurn (board, IO);
+  	until getLostStatus (board);
+  end;
 
   procedure checkLoss (var board : TBoard); // Sets the lost status to true is necesary
   var
