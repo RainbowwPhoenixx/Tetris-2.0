@@ -1,6 +1,6 @@
 program MainClassic.pas;
 
-uses UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTNextPieces, UTGeneralInterfaceTypes, UTerminalInterface, UTBoard, UGameMechanics_CLASSIC;
+uses UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTNextPieces, UTGeneralInterfaceTypes, UTerminalInterface, UTBoard, UGameMechanics_CUSTOM;
 
 var
 	board : Tboard;

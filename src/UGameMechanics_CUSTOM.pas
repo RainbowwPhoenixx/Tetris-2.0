@@ -1,10 +1,10 @@
-UNIT UGameMechanics_CLASSIC;
+unit UGameMechanics_CUSTOM;
 
-INTERFACE
+interface
 
-  USES  UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTMatrix, UTNextPieces, UTBoard, UTGeneralInterfaceTypes, crt;
+  uses  UConstants, UTShape, UTMino, UTTetrimino, UTMovement, UTMatrix, UTNextPieces, UTBoard, UTGeneralInterfaceTypes, crt;
 
-  PROCEDURE computeFrame(var board : TBoard; IO : IO_Interface);
+  procedure computeFrame(var board : TBoard; IO : IO_Interface);
   procedure computeTurn (var board : TBoard; IO : IO_Interface);
 
 	function isStateValid (matrix : TMatrix) : Boolean;
@@ -13,7 +13,7 @@ INTERFACE
 	procedure handleEvent (var board : TBoard; movement : TMovement; IO : IO_Interface);
 	function initBoard (shape : TShapeTetrimino) : TBoard;
 
-IMPLEMENTATION
+implementation
 
   procedure checkLoss (var board : TBoard); // Sets the lost status to true is necesary
   var
@@ -25,10 +25,10 @@ IMPLEMENTATION
       setLostStatus (board, True);
   end;
 
-  PROCEDURE computeFrame(var board : TBoard; IO : IO_Interface);
+  procedure computeFrame(var board : TBoard; IO : IO_Interface);
   var
     move: TMovement;
-  BEGIN
+  begin
     // Look for inputs from the player
     move := IO.PlayerIn ();
     // Apply those inputs to the board
@@ -37,7 +37,7 @@ IMPLEMENTATION
     IO.BoardOut (board);
     // Wait some time for the next frame.
     delay (16); // ~60 fps
-  END;
+  end;
 
   function levelToSpeed (level : byte) : byte;
   begin
@@ -340,4 +340,4 @@ IMPLEMENTATION
 			end;
 		end;
 	end;
-END.
+end.

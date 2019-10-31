@@ -1,7 +1,7 @@
 constants_files=("src/UConstants.pas src/UConstantsTerminalInterface")
 type_unit_files=("src/UTShape.pas src/UTMino.pas src/UTTetrimino.pas src/UTMovement.pas src/UTMatrix.pas src/UTNextPieces.pas src/UTBoard.pas src/UTGeneralInterfaceTypes.pas")
 
-other_unit_files=("src/UTerminalInterface.pas src/UGameMechanics_CLASSIC.pas")
+other_unit_files=("src/UTerminalInterface.pas src/UGameMechanics_CUSTOM.pas")
 
 main_program_files=("src/MainClassic")
 
