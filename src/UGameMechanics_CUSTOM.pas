@@ -92,7 +92,7 @@ implementation
 
     // Then pull down all of the lines above the cleared lines
     for k := linesCleared downto 1 do
-      for i := linesToClear[1] to Cmatrix_height - 1 do
+      for i := linesToClear[k] to Cmatrix_height - 1 do
         for j := 1 to Cmatrix_width do
           setMinoAtCoords (matrix, j, i, newMino(j, i, getMinoType(getMinoFromCoords(matrix, j, i + 1))));
 
