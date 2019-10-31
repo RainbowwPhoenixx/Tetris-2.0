@@ -146,26 +146,17 @@ implementation
   procedure runGame (IO : IO_Interface);
   var
     board : Tboard;
-    i : byte;
-    tmpNextQueue : TNextPieces;
   begin
     Randomize ();
 
     board := initBoard(getRandomShape ());
-
-    // Init the queue with random pieces
-    tmpNextQueue := getNextQueue (board);
-    for i := 1 to Cnext_queue_length do
-    begin
-      setIthNextPiece (tmpNextQueue, i , getRandomShape());
-    end;
-    setNextQueue (board, tmpNextQueue);
 
     IO.initOut();
 
     repeat
   		computeTurn (board, IO);
   	until getLostStatus (board);
+
   end;
 
   procedure checkLoss (var board : TBoard); // Sets the lost status to true is necesary
@@ -357,11 +348,13 @@ implementation
 		setMatrix (tmpBoard, initMatrix (shape));
 		setHoldPiece (tmpBoard, VOID);
 
-		// Initializing the next queue as empty
-		tmpQueue := getNextQueue (tmpBoard);
-		for i := 1 to Cnext_queue_length do
-			setIthNextPiece (tmpQueue, i, VOID);
-		setNextQueue (tmpBoard, tmpQueue);
+    // Init the queue with random pieces
+    tmpQueue := getNextQueue (tmpBoard);
+    for i := 1 to Cnext_queue_length do
+    begin
+      setIthNextPiece (tmpQueue, i , getRandomShape());
+    end;
+    setNextQueue (tmpBoard, tmpQueue);
 
 		setScore (tmpBoard, 0);
 		setLevel (tmpBoard, 0);
