@@ -1,1 +1,1 @@
-./bin/MainClassic
+gnome-terminal -- ./bin/MainClassic
